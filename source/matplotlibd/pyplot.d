@@ -4,7 +4,7 @@ import matplotlibd.core.translate;
 
 private:
 
-string py_script = "import matplotlib.pyplot as plt\n";
+string py_script = "import matplotlib.pyplot as plt\ninf = float('inf')\n";
 
 immutable string plt_funcs = (){
     import std.string: splitLines;
@@ -14,7 +14,7 @@ immutable string plt_funcs = (){
 
     foreach(name; method_names) {
         plt_funcs ~=
-            "void " ~ name ~ "(T...)(T a)" ~
+            "void " ~ (name=="cast"?"_cast":name) ~ "(T...)(T a)" ~
             "{import std.format: format;" ~
             "string p;if(a.length>0){foreach(i;a){p~=parseArgs(i);}" ~
             "p = p[0..$-1];}py_script~=format(\"plt."~ name ~ "(%s)\n\",p);";
